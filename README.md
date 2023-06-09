@@ -1,2 +1,2 @@
 # ansible_playbook_monitoring
-Playbook ansible для мониторинга и оркестрации контейнеров
+Playbook ansible для мониторинга и оркестрации контейнеров в режиме swarm
