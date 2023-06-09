@@ -1,0 +1,30 @@
+---
+- hosts: all
+  remote_user: root
+  become: true
+  tasks:
+    - name: Git checkout
+      ansible.builtin.git:
+        repo: 'https://github.com/stefanprodan/swarmprom.git'
+        dest: /home/monitoring
+
+    - name: Install Docker SDK for Python
+      pip:
+        name: "docker<5" 
+      become: yes
+
+    - name: Setup more docker dependencies
+      pip:
+        name: "websocket-client<1" 
+      become: yes
+
+    - name: Init a new swarm with default parameters
+      community.docker.docker_swarm:
+        state: present
+
+    - name: Deploy stack from a compose file
+      docker_stack:
+        state: present
+        name: mon
+        compose:
+           - /home/monitoring/docker-compose.yml
